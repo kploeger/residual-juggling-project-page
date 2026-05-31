@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Task-Error Residual Learning for Real-Robot Five-Ball Juggling</title>
+  <meta name="description" content="Task-error residual learning solves high-acceleration manipulation on real hardware: stable three-, four-, and five-ball juggling on two Barrett WAM arms from the second attempt, using directional task-error supervision and a task model that drives sample selection.">
+  <meta name="keywords" content="residual policy learning, robot juggling, Barrett WAM, sample efficiency, Bayesian optimization, task-error supervision, real-robot reinforcement learning, high-acceleration manipulation">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:title" content="Task-Error Residual Learning for Real-Robot Five-Ball Juggling">
+  <meta property="og:description" content="Stable three-, four-, and five-ball juggling on two Barrett WAM arms from the second attempt, via directional task-error residual learning.">
+  <meta property="og:image" content="static/images/hero.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <h1 class="title is-2 publication-title">
+        Task-Error Residual Learning for<br>Real-Robot Five-Ball Juggling
+      </h1>
+
+      <div class="is-size-5 publication-authors">
+        <span class="author-block">
+          <a href="https://www.kai-ploeger.com">Kai Ploeger</a>
+        </span>
+        <span class="author-block">
+          <a href="https://www.ias.informatik.tu-darmstadt.de/Team/JanPeters">Jan Peters</a>
+        </span>
+      </div>
+
+      <div class="is-size-6 publication-authors" style="margin-top:0.5rem;">
+        <span class="author-block">Technical University of Darmstadt, Germany</span>
+      </div>
+
+      <!-- Links -->
+      <div class="publication-links buttons is-centered" style="margin-top:1.5rem;">
+        <!-- Code: disabled placeholder until the repository is public. -->
+        <a class="button is-rounded" href="#" aria-disabled="true"
+           style="opacity:0.55;pointer-events:none;" title="Coming soon">
+          <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+        </a>
+        <!-- arXiv: disabled placeholder until the preprint is posted. -->
+        <a class="button is-rounded" href="#" aria-disabled="true"
+           style="opacity:0.55;pointer-events:none;" title="Coming soon">
+          <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+        </a>
+        <a class="button is-rounded" href="#videos">
+          <span class="icon"><i class="fas fa-video"></i></span><span>Videos</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEASER ===================== -->
+<section class="section" style="padding-top:1rem;">
+  <div class="container is-max-desktop has-text-centered teaser">
+    <img src="static/images/hero.jpg" alt="Long-exposure photograph of a Barrett WAM arm juggling, showing the ball trajectories as red arcs.">
+    <p class="caption">
+      A Barrett WAM arm sustaining a juggling pattern (long exposure). The residual
+      learner reaches stable three-, four-, and five-ball juggling on real hardware
+      from the second attempt.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <div class="content content-narrow abstract-text">
+      <p>
+        For residual learning that refines existing behavior, sample efficiency depends
+        on two things: how much information each rollout returns, and how efficiently the
+        learner uses that information. Reinforcement learning's standard scalar reward
+        carries far less information than the directional task error that defines the task.
+        Random exploration further discards whatever information each rollout returns.
+      </p>
+      <p>
+        Through residual learning with directional task-error supervision and a task error
+        model that drives sample selection, we achieve stable three-, four-, and five-ball
+        juggling on anthropomorphic Barrett WAM arms. Despite planning and controlling
+        through a deliberately simple stack with idealized assumptions, the system converges
+        from the second attempt: the first attempt drops, after which task error decreases
+        monotonically without further failures. In comparison, five-ball juggling typically
+        takes humans years of practice.
+      </p>
+      <p>
+        We compare residual learners across two ternary axes, the directional information in
+        the learning feedback and the commitment of the analytic prior, spanning Newton-style
+        Jacobian updates, Composite Bayesian Optimization, and stochastic search methods.
+        Both axes prove necessary: neither directional feedback nor an informative prior
+        suffices alone, and the simplest method that combines them, a fixed-Jacobian Newton
+        update, is the most reliable. The learned residual tolerates a misaligned analytic
+        prior and degraded tracking, with only convergence speed affected. The bottleneck for
+        residual learning on real robots is therefore the information content of the
+        supervision signal and how the learner uses it, not the accuracy of the surrounding
+        stack.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VIDEOS ===================== -->
+<section class="section" id="videos">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Real-Robot Experiments</h2>
+
+    <!-- Number of balls -->
+    <div class="video-block">
+      <h4 class="title is-5">Three, four, and five balls</h4>
+      <video controls playsinline preload="metadata" poster="static/images/hero.jpg">
+        <source src="static/videos/num_balls.mp4" type="video/mp4">
+      </video>
+      <p class="video-caption">
+        Best-known residual policies juggling uniform three-, four-, and five-ball patterns
+        on two Barrett WAM arms. Each panel advances attempt by attempt. The first attempt
+        drops; every subsequent attempt succeeds &mdash; for three balls, every attempt
+        succeeds from the first.
+      </p>
+    </div>
+
+    <!-- Gain robustness -->
+    <div class="video-block">
+      <h4 class="title is-5">Robustness to controller gains</h4>
+      <p class="video-caption" style="margin-top:0;margin-bottom:1rem;">
+        The learned five-ball residual remains stable as the tracking controller's gains are
+        scaled down to 75%, 50%, and 25% of nominal &mdash; reducing proportional gain
+        (K<sub>p</sub>), derivative gain (K<sub>d</sub>), and both together.
+      </p>
+
+      <div class="video-block">
+        <video class="lazyplay" muted loop playsinline controls preload="metadata">
+          <source src="static/videos/gains_kp.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Proportional gain K<sub>p</sub> at 100 / 75 / 50 / 25%.</p>
+      </div>
+
+      <div class="video-block">
+        <video class="lazyplay" muted loop playsinline controls preload="metadata">
+          <source src="static/videos/gains_kd.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Derivative gain K<sub>d</sub> at 100 / 75 / 50 / 25%.</p>
+      </div>
+
+      <div class="video-block">
+        <video class="lazyplay" muted loop playsinline controls preload="metadata">
+          <source src="static/videos/gains_kp_kd.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Both gains K<sub>p</sub> &amp; K<sub>d</sub> at 100 / 75 / 50 / 25%.</p>
+      </div>
+    </div>
+
+    <!-- Prior rotation -->
+    <div class="video-block">
+      <h4 class="title is-5">Sensitivity to the analytic prior</h4>
+      <video class="lazyplay" muted loop playsinline controls preload="metadata">
+        <source src="static/videos/prior_rotation.mp4" type="video/mp4">
+      </video>
+      <p class="video-caption">
+        Rotating the analytic prior away from its nominal orientation (0&deg; to 90&deg;).
+        The residual learner absorbs increasingly misaligned priors, reaching a stable
+        pattern from the second attempt across rotations.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BIBTEX ===================== -->
+<section class="section" id="bibtex">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre class="bibtex">@unpublished{ploeger2026residual,
+  title  = {Task-Error Residual Learning for Real-Robot Five-Ball Juggling},
+  author = {Ploeger, Kai and Peters, Jan},
+  year   = {2026},
+  note   = {Under submission},
+}</pre>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container is-max-desktop has-text-centered">
+    <div class="content">
+      <p>
+        The website template is adapted from the
+        <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>,
+        itself based on <a href="https://nerfies.github.io">Nerfies</a>.
+        Content licensed under
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Play looping result videos only while they're on screen, and pause them
+  // otherwise — so the page never downloads/plays all clips at once on load.
+  (function () {
+    var vids = document.querySelectorAll('video.lazyplay');
+    if (!('IntersectionObserver' in window)) {
+      vids.forEach(function (v) { v.play().catch(function () {}); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { v.play().catch(function () {}); }
+        else { v.pause(); }
+      });
+    }, { threshold: 0.25 });
+    vids.forEach(function (v) { io.observe(v); });
+  })();
+</script>
+
+</body>
+</html>
