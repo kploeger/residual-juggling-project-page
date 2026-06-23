@@ -70,9 +70,9 @@
   <div class="container is-max-desktop has-text-centered teaser">
     <img src="static/images/hero.jpg" alt="Long-exposure photograph of a Barrett WAM arm juggling, showing the ball trajectories as red arcs.">
     <p class="caption">
-      A Barrett WAM arm sustaining a juggling pattern (long exposure). The residual
-      learner reaches stable three-, four-, and five-ball juggling on real hardware
-      from the second attempt.
+      Two Barrett WAM arms sustaining a five-ball cascade juggling pattern.
+      <br>
+      The residual learner reaches stable juggling on real hardware on the second attempt.
     </p>
   </div>
 </section>
@@ -114,6 +114,24 @@
   </div>
 </section>
 
+<!-- ===================== METHOD COMPARISON (SIM) ===================== -->
+<section class="section" id="method-comparison">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method Comparison</h2>
+    <figure class="plot-figure">
+      <img src="static/images/plots/plot_method_comparison_sim.svg"
+           alt="Bar chart of juggling attempts to first success and to a ten-in-a-row streak, across the feedback-type by prior-specificity matrix, evaluated in simulation at the five-ball cascade.">
+    </figure>
+    <p class="video-caption content-narrow has-text-centered">
+      Fast, reliable convergence needs <em>both</em> directional feedback and an
+      informative prior. Evaluated in simulation at the five-ball cascade across the full
+      feedback&nbsp;&times;&nbsp;prior-specificity matrix. Bars give the number ofattempts to the
+      first success (solid) and to a 10-attempts-in-a-row streak (light). Mean&nbsp;&plusmn;&nbsp;s.d.
+      over 10 seeds in simulation. The Fixed Jacobian Newton update is the simplest method of all and performs best.
+    </p>
+  </div>
+</section>
+
 <!-- ===================== VIDEOS ===================== -->
 <section class="section" id="videos">
   <div class="container is-max-desktop">
@@ -122,59 +140,67 @@
     <!-- Number of balls -->
     <div class="video-block">
       <h4 class="title is-5">Three, four, and five balls</h4>
-      <video controls playsinline preload="metadata" poster="static/images/hero.jpg">
+      <p class="video-caption"  style="margin-top:0;margin-bottom:1rem;">
+        Residual learning through Fixed Jacobian Newton updates on a directional task-error signal for
+        three-, four-, and five-ball juggling. Three balls work on the first attempt. Four and five on the second.
+        Each panel in the video shows ten consecutive juggling attempts of the same learning run. Each attempt is capped at 100 throws.
+      </p>
+      <video class="lazyplay" muted loop controls playsinline preload="metadata" poster="static/images/hero.jpg">
         <source src="static/videos/num_balls.mp4" type="video/mp4">
       </video>
-      <p class="video-caption">
-        Best-known residual policies juggling uniform three-, four-, and five-ball patterns
-        on two Barrett WAM arms. Each panel advances attempt by attempt. The first attempt
-        drops; every subsequent attempt succeeds &mdash; for three balls, every attempt
-        succeeds from the first.
-      </p>
     </div>
 
     <!-- Gain robustness -->
     <div class="video-block">
       <h4 class="title is-5">Robustness to controller gains</h4>
+
       <p class="video-caption" style="margin-top:0;margin-bottom:1rem;">
-        The learned five-ball residual remains stable as the tracking controller's gains are
-        scaled down to 75%, 50%, and 25% of nominal &mdash; reducing proportional gain
-        (K<sub>p</sub>), derivative gain (K<sub>d</sub>), and both together.
+        The deliberately simple control stack consists of a PD tracking controller with a CAD derived feedforward torque around a planned throw trajectory. The choice of control gains mostly affect convergence speed, not final performance. Five ball juggling succeeds at surprisingly low gains.
+        Nominal values are K<sub>p</sub> = [400, 400, 200, 200] and K<sub>d</sub> = [40, 20, 15, 5].
       </p>
+
+      <figure class="plot-figure">
+        <img src="static/images/plots/plot_stack_accuracy_gains_grid.svg"
+             alt="Catches and takeoff velocity error per attempt as the proportional gain, derivative gain, and both gains are scaled from 100% down to 25% of nominal.">
+      </figure>
 
       <div class="video-block">
         <video class="lazyplay" muted loop playsinline controls preload="metadata">
           <source src="static/videos/gains_kp.mp4" type="video/mp4">
         </video>
-        <p class="video-caption">Proportional gain K<sub>p</sub> at 100 / 75 / 50 / 25%.</p>
       </div>
 
       <div class="video-block">
         <video class="lazyplay" muted loop playsinline controls preload="metadata">
           <source src="static/videos/gains_kd.mp4" type="video/mp4">
         </video>
-        <p class="video-caption">Derivative gain K<sub>d</sub> at 100 / 75 / 50 / 25%.</p>
       </div>
 
       <div class="video-block">
         <video class="lazyplay" muted loop playsinline controls preload="metadata">
           <source src="static/videos/gains_kp_kd.mp4" type="video/mp4">
         </video>
-        <p class="video-caption">Both gains K<sub>p</sub> &amp; K<sub>d</sub> at 100 / 75 / 50 / 25%.</p>
       </div>
+
+      
     </div>
 
     <!-- Prior rotation -->
     <div class="video-block">
       <h4 class="title is-5">Sensitivity to the analytic prior</h4>
+
+      <p class="video-caption" style="margin-top:0;margin-bottom:1rem;">
+        Rotating the analytic prior away from its nominal orientation (0&deg; to 90&deg;) around random axis. A prior on exploration direction only needs to loosely point in the right direction. Even 45&deg only slightly slows convergence.
+      </p>
+
+      <figure class="plot-figure">
+        <img src="static/images/plots/plot_prior_quality_rotation.svg"
+             alt="Catches and takeoff velocity error per attempt as the analytic Jacobian is rotated from 0 to 90 degrees.">
+      </figure>
+
       <video class="lazyplay" muted loop playsinline controls preload="metadata">
         <source src="static/videos/prior_rotation.mp4" type="video/mp4">
       </video>
-      <p class="video-caption">
-        Rotating the analytic prior away from its nominal orientation (0&deg; to 90&deg;).
-        The residual learner absorbs increasingly misaligned priors, reaching a stable
-        pattern from the second attempt across rotations.
-      </p>
     </div>
   </div>
 </section>
