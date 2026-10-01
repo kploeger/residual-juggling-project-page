@@ -129,9 +129,10 @@
     <p class="video-caption content-narrow has-text-centered">
       Fast, reliable convergence needs <em>both</em> directional feedback and an
       informative prior. Evaluated in simulation at the five-ball cascade across the full
-      feedback&nbsp;&times;&nbsp;prior-specificity matrix. Bars give the number ofattempts to the
-      first success (solid) and to a 10-attempts-in-a-row streak (light). Mean&nbsp;&plusmn;&nbsp;s.d.
-      over 10 seeds in simulation. The Fixed Jacobian Newton update is the simplest method of all and performs best.
+      feedback&nbsp;&times;&nbsp;prior-specificity matrix. Bars give attempts to the
+      first success over 20 throws (solid) and to a ten-in-a-row streak
+      (light; reached by X/20 seeds). Mean&nbsp;&plusmn;&nbsp;s.d.
+      over 20 seeds spanning 10 randomized plants. The Fixed Jacobian Newton update is the simplest method of all and performs best.
     </p>
   </div>
 </section>
@@ -194,7 +195,7 @@
       <h4 class="title is-5">Sensitivity to the analytic prior</h4>
 
       <p class="video-caption" style="margin-top:0;margin-bottom:1rem;">
-        Rotating the analytic prior away from its nominal orientation (0&deg; to 90&deg;) around random axis. A prior on exploration direction only needs to loosely point in the right direction. Even 45&deg only slightly slows convergence. Each attempt is capped at 10 throws.
+        The analytic Jacobian is rotated from 0&deg; to 90&deg; around four fixed random axes, one per seed. Rotations up to 30&deg; leave convergence speed unchanged, and even 60&deg; still converges. Each setting is run over four seeds of ten attempts each, with each attempt capped at 10 throws.
       </p>
 
       <figure class="plot-figure">
