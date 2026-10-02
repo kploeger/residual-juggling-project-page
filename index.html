@@ -103,16 +103,17 @@
         takes humans years of practice.
       </p>
       <p>
-        We compare residual learners across two ternary axes, the directional information in
-        the learning feedback and the commitment of the analytic prior, spanning Newton-style
-        Jacobian updates, Composite Bayesian Optimization, and stochastic search methods.
-        Both axes prove necessary: neither directional feedback nor an informative prior
-        suffices alone, and the simplest method that combines them, a fixed-Jacobian Newton
-        update, is the most reliable. The learned residual tolerates a misaligned analytic
-        prior and degraded tracking, with only convergence speed affected. The bottleneck for
-        residual learning on real robots is therefore the information content of the
-        supervision signal and how the learner uses it, not the accuracy of the surrounding
-        stack.
+        We compare residual learners across two ternary axes, the directional information
+        in the learning feedback and the commitment of the analytic prior, spanning
+        Newton-style Jacobian updates, Composite Bayesian Optimization, and stochastic
+        search methods. Both axes prove necessary for fast convergence: neither
+        directional feedback nor an informative prior alone matches their combination, and
+        the simplest method that combines them, a fixed-Jacobian Newton update, is the
+        fastest and fully reliable. The learned residual tolerates substantial prior
+        misalignment and degraded joint tracking, affecting mainly convergence speed. The
+        bottleneck for residual learning on real robots is therefore the information
+        content of the supervision signal and how the learner uses it, not the accuracy of
+        the surrounding stack.
       </p>
     </div>
   </div>
